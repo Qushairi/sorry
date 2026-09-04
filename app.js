@@ -459,7 +459,7 @@ function initWhatsAppButton() {
   waBtn.addEventListener("click", (e) => {
     if (!CONFIG.whatsappNumber) {
       const userNumber = prompt(
-        "Masukkan nomor WhatsApp Anda (format: 628xxx) agar pesan ini langsung terkirim ke Anda, atau klik OK untuk membuka WhatsApp:",
+        "klik OK untuk membuka WhatsApp: kirim ke aku ya sayang",
         ""
       );
       if (userNumber && userNumber.trim() !== "") {
