@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Pesan Spesial Untuk Nahdya 💌</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Canvas untuk efek partikel latar belakang (hati melayang & bintang gemerlap) -->
+  <canvas id="bg-canvas"></canvas>
+  <!-- Canvas untuk ledakan konfeti saat dimaafkan -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Audio Controls Floating Bar -->
+  <div class="audio-control-bar">
+    <button id="music-toggle-btn" class="pill-btn" aria-label="Toggle Musik">
+      <span class="music-icon">🎵</span>
+      <span class="music-text">Putar Melodi Romantis</span>
+    </button>
+  </div>
+
+  <main class="main-container">
+    
+    <!-- ==================== SCENE 1: AMPLOP RAHASIA ==================== -->
+    <section id="scene-envelope" class="scene active-scene">
+      <div class="envelope-wrapper">
+        <div class="glow-bubble"></div>
+        <div class="envelope-card" id="envelope-box">
+          <div class="envelope-front">
+            <div class="flap"></div>
+            <div class="pocket"></div>
+            <div class="letter-peek">
+              <div class="peek-line"></div>
+              <div class="peek-line short"></div>
+            </div>
+            <div class="wax-seal" id="seal-trigger">
+              <div class="wax-inner">
+                <span class="seal-heart">💌</span>
+              </div>
+              <div class="seal-ripple"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="envelope-caption">
+          <span class="badge-tag">Khusus Untukmu</span>
+          <h1 class="recipient-title">Hai, <span class="recipient-name">Nahdya</span>... ✨</h1>
+          <p class="envelope-instruction">Ada sepucuk surat rahasia yang ingin aku sampaikan.<br><strong>Ketuk amplop atau segel hati</strong> untuk membukanya.</p>
+          <button class="primary-btn open-letter-btn" id="open-letter-btn">
+            <span>Buka Surat</span>
+            <span class="btn-icon">📬</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SCENE 2 & 3: KONTEN SURAT & PERMOHONAN MAAF ==================== -->
+    <section id="scene-letter" class="scene hidden-scene">
+      <div class="letter-paper">
+        <!-- Pita Hiasan Atas -->
+        <div class="paper-top-tape"></div>
+
+        <!-- Header Maskot Lucu -->
+        <div class="mascot-container">
+          <div class="mascot" id="mascot-display">
+            <!-- Cute SVG Bear / Bunny Apology Avatar -->
+            <svg class="mascot-svg" viewBox="0 0 200 200" width="130" height="130">
+              <defs>
+                <linearGradient id="bearGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#ffccd5" />
+                  <stop offset="100%" stop-color="#ffb3c1" />
+                </linearGradient>
+                <linearGradient id="earInner" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#fff0f3" />
+                  <stop offset="100%" stop-color="#ffccd5" />
+                </linearGradient>
+              </defs>
+              <!-- Ears -->
+              <circle cx="55" cy="55" r="28" fill="url(#bearGrad)" />
+              <circle cx="55" cy="55" r="16" fill="url(#earInner)" />
+              <circle cx="145" cy="55" r="28" fill="url(#bearGrad)" />
+              <circle cx="145" cy="55" r="16" fill="url(#earInner)" />
+              <!-- Head -->
+              <ellipse cx="100" cy="105" rx="65" ry="55" fill="url(#bearGrad)" />
+              <!-- Cheeks (blush) -->
+              <circle cx="58" cy="115" r="12" fill="#ff758f" opacity="0.6" class="blush" />
+              <circle cx="142" cy="115" r="12" fill="#ff758f" opacity="0.6" class="blush" />
+              <!-- Eyes (Sad/Pleading) -->
+              <g id="mascot-eyes" class="mascot-eyes-sad">
+                <!-- Left Eye Teary -->
+                <circle cx="75" cy="98" r="8" fill="#3a0ca3" />
+                <circle cx="73" cy="95" r="3.5" fill="#ffffff" />
+                <circle cx="78" cy="101" r="1.5" fill="#ffffff" />
+                <!-- Right Eye Teary -->
+                <circle cx="125" cy="98" r="8" fill="#3a0ca3" />
+                <circle cx="123" cy="95" r="3.5" fill="#ffffff" />
+                <circle cx="128" cy="101" r="1.5" fill="#ffffff" />
+                <!-- Big sparkling tears -->
+                <path d="M 68 108 Q 63 120 70 125 Q 77 120 72 108 Z" fill="#64dfdf" opacity="0.85" class="tear tear-left" />
+                <path d="M 132 108 Q 137 120 130 125 Q 123 120 128 108 Z" fill="#64dfdf" opacity="0.85" class="tear tear-right" />
+              </g>
+              <!-- Cute Nose & Mouth (pouty) -->
+              <ellipse cx="100" cy="112" rx="14" ry="10" fill="#ffffff" opacity="0.8" />
+              <ellipse cx="100" cy="108" rx="5" ry="3.5" fill="#590d22" />
+              <path id="mascot-mouth" d="M 94 116 Q 100 113 106 116" stroke="#590d22" stroke-width="2.5" fill="none" stroke-linecap="round" />
+              <!-- Paws holding sign -->
+              <ellipse cx="68" cy="148" rx="14" ry="12" fill="url(#bearGrad)" />
+              <ellipse cx="132" cy="148" rx="14" ry="12" fill="url(#bearGrad)" />
+              <!-- Little broken heart or sorry badge -->
+              <g class="held-badge">
+                <rect x="55" y="140" width="90" height="28" rx="8" fill="#ffffff" stroke="#ff4d6d" stroke-width="2" />
+                <text x="100" y="159" text-anchor="middle" font-size="12" font-weight="bold" fill="#ff4d6d" font-family="Quicksand, sans-serif">Aku Minta Maaf 🥺</text>
+              </g>
+            </svg>
+          </div>
+          <div class="mood-badge" id="mood-status">Status: Sedih banget & nyesel 😢</div>
+        </div>
+
+        <!-- Isi Surat dengan Typewriter Effect -->
+        <div class="letter-content-box">
+          <div class="letter-date" id="letter-date">Hari ini, dari lubuk hati paling dalam 🌸</div>
+          
+          <div class="typewriter-wrapper">
+            <div id="typewriter-text" class="typed-text"></div>
+            <span class="typed-cursor">|</span>
+          </div>
+
+          <!-- Tombol Lewati Animasi Ketik jika terburu-buru -->
+          <button id="skip-type-btn" class="text-link-btn" title="Tampilkan semua tulisan">Tampilkan semua ⚡</button>
+        </div>
+
+        <!-- Interactive Reason Accordions / Flip Cards -->
+        <div class="reasons-section" id="reasons-section">
+          <h3 class="section-title">
+            <span class="heart-icon">💖</span> 3 Hal Yang Selalu Bikin Aku Bersyukur Punya Kamu
+          </h3>
+          <p class="section-subtitle">Ketuk kartu di bawah untuk membaca pesan di baliknya:</p>
+          
+          <div class="cards-grid">
+            <div class="interactive-card" data-card="1">
+              <div class="card-inner">
+                <div class="card-front">
+                  <div class="card-icon">🌸</div>
+                  <h4>Senyuman Kamu</h4>
+                  <span class="tap-hint">Ketuk untuk buka</span>
+                </div>
+                <div class="card-back">
+                  <p>Senyum dan ketawa kamu itu hal paling berharga buat aku. Kalau kamu cemberut atau sedih karena kesalahanku, duniaku rasanya ikutan mendung 🥺</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="interactive-card" data-card="2">
+              <div class="card-inner">
+                <div class="card-front">
+                  <div class="card-icon">✨</div>
+                  <h4>Kesabaran Kamu</h4>
+                  <span class="tap-hint">Ketuk untuk buka</span>
+                </div>
+                <div class="card-back">
+                  <p>Terima kasih udah selalu berusaha sabar ngadepin aku. Aku sadar masih banyak kurangnya, dan aku janji bakal terus belajar jadi pasangan yang lebih peka dan pengertian.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="interactive-card" data-card="3">
+              <div class="card-inner">
+                <div class="card-front">
+                  <div class="card-icon">🤍</div>
+                  <h4>Kehadiran Kamu</h4>
+                  <span class="tap-hint">Ketuk untuk buka</span>
+                </div>
+                <div class="card-back">
+                  <p>Kamu bukan sekadar pacar, tapi orang yang selalu bikin hari-hariku jadi jauh lebih bermakna. Aku gamau kehilangan tawa kamu cuma karena kebodohanku.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="divider-romantic">
+
+        <!-- ==================== BAGIAN KEPUTUSAN INTERAKTIF ==================== -->
+        <div class="decision-section" id="decision-section">
+          <h2 class="question-text">Nahdya sayang, mau maafin aku kan? 🥺👉👈</h2>
+          <p class="decision-prompt" id="decision-prompt">Jangan marah lama-lama yaa... hati aku ga tenang 😢</p>
+
+          <div class="buttons-playground" id="buttons-area">
+            <!-- Tombol Iya (Makin Besar) -->
+            <button id="btn-yes" class="btn-choice btn-yes">
+              <span class="btn-emoji">❤️</span>
+              <span class="btn-text">Iya, Aku Maafin!</span>
+            </button>
+
+            <!-- Tombol Enggak (Otomatis Kabur/Lari saat didekati/ditekan) -->
+            <button id="btn-no" class="btn-choice btn-no">
+              <span class="btn-emoji">😤</span>
+              <span class="btn-text" id="no-btn-text">Enggak Mau!</span>
+            </button>
+          </div>
+
+          <div class="dodge-counter-wrapper">
+            <p id="dodge-message" class="dodge-message"></p>
+          </div>
+        </div>
+
+        <!-- ==================== SCENE 4: HADIAH & PERAYAAN SETELAH DIMAAFKAN ==================== -->
+        <div id="forgiven-section" class="forgiven-section hidden-element">
+          <div class="celebration-header">
+            <div class="trophy-bounce">🎉</div>
+            <h2 class="yay-title">YAAAY! MAKASIH BANYAK SAYANG! ❤️🥰</h2>
+            <p class="yay-desc">Makasih udah punya hati yang begitu luas dan tulus memaafkan aku. Ini hadiah damai spesial buat kamu:</p>
+          </div>
+
+          <!-- Hadiah 1: Virtual Flower Garden -->
+          <div class="gift-box flower-gift-box">
+            <div class="gift-badge">💐 Hadiah 1: Buket Bunga Kasih Sayang</div>
+            <h4 class="gift-title">Ketik atau Ketuk Mawar Ini Untuk Merangkai Buketmu</h4>
+            
+            <div class="flower-stage">
+              <div class="virtual-bouquet" id="virtual-bouquet">
+                <div class="bouquet-ribbon">🎀</div>
+                <div class="bouquet-flowers" id="bouquet-flowers">
+                  <!-- Mawar mekar bertambah tiap diklik -->
+                </div>
+              </div>
+              <div class="flower-action">
+                <button id="add-flower-btn" class="pill-btn flower-btn">
+                  <span>Petik 1 Mawar Lagi 🌹</span>
+                  <span id="flower-count-badge" class="count-pill">0 Tangkai</span>
+                </button>
+                <p class="flower-quote" id="flower-quote">"Setiap bunga mewakili rasa sayang dan janjiku padamu."</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hadiah 2: Kupon Perdamaian (Love Vouchers) -->
+          <div class="gift-box vouchers-gift-box">
+            <div class="gift-badge">🎟️ Hadiah 2: Kupon Permintaan Maaf Resmi</div>
+            <h4 class="gift-title">Bisa kamu klaim kapan aja tanpa batas waktu!</h4>
+            <p class="gift-instruction">Ketuk tombol "Klaim" pada kupon di bawah:</p>
+
+            <div class="vouchers-list">
+              <!-- Kupon 1 -->
+              <div class="voucher-card" id="voucher-1">
+                <div class="voucher-left">
+                  <span class="voucher-type">TREAT TICKET</span>
+                  <h5 class="voucher-name">🍽️ Traktir Makanan / Jajan Apapun Sepuasnya</h5>
+                  <p class="voucher-desc">Mau seblak, sushi, boba, matcha, atau makanan favoritmu, aku yang bayar & temenin sampai kenyang!</p>
+                </div>
+                <div class="voucher-right">
+                  <button class="claim-voucher-btn" onclick="claimVoucher('voucher-1')">Klaim</button>
+                </div>
+              </div>
+
+              <!-- Kupon 2 -->
+              <div class="voucher-card" id="voucher-2">
+                <div class="voucher-left">
+                  <span class="voucher-type">VIP PASS</span>
+                  <h5 class="voucher-name">👑 Bebas Ngambek & Jadi Ratu Seharian</h5>
+                  <p class="voucher-desc">Apapun kemauan Nahdya hari ini harus dituruti tanpa debat sedikit pun. Kamu juaranya!</p>
+                </div>
+                <div class="voucher-right">
+                  <button class="claim-voucher-btn" onclick="claimVoucher('voucher-2')">Klaim</button>
+                </div>
+              </div>
+
+              <!-- Kupon 3 -->
+              <div class="voucher-card" id="voucher-3">
+                <div class="voucher-left">
+                  <span class="voucher-type">HEALING TICKET</span>
+                  <h5 class="voucher-name">🫂 Pelukan Hangat & Dengerin Curhat 24 Jam</h5>
+                  <p class="voucher-desc">Telinga dan bahu ini siap sedia kapan pun kamu butuh tempat bersandar tanpa disela atau dihakimi.</p>
+                </div>
+                <div class="voucher-right">
+                  <button class="claim-voucher-btn" onclick="claimVoucher('voucher-3')">Klaim</button>
+                </div>
+              </div>
+
+              <!-- Kupon 4 -->
+              <div class="voucher-card" id="voucher-4">
+                <div class="voucher-left">
+                  <span class="voucher-type">DATE PASS</span>
+                  <h5 class="voucher-name">🛵 Jalan-Jalan & Quality Time Seru</h5>
+                  <p class="voucher-desc">Jalan sore, cari angin malam, hunting kuliner atau nonton film bareng yang bikin kita ketawa lagi.</p>
+                </div>
+                <div class="voucher-right">
+                  <button class="claim-voucher-btn" onclick="claimVoucher('voucher-4')">Klaim</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tombol WhatsApp Balas Cepat -->
+          <div class="whatsapp-action-card">
+            <h3>Kabar Baik Ini Harus Disampaikan Langsung! 🥰</h3>
+            <p>Biar hatiku tenang dan ga deg-degan lagi, kirim kabar langsung ke WhatsApp-ku ya:</p>
+            <a id="whatsapp-reply-btn" href="#" target="_blank" class="whatsapp-btn">
+              <span class="wa-icon">💬</span>
+              <span>Kirim Chat: "Iya sayang, aku udah maafin kok ❤️"</span>
+            </a>
+            <p class="promise-tag">"Janji ga bakal bikin kamu sedih atau kesel kayak gini lagi. I love you so much! 💖"</p>
+          </div>
+
+          <!-- Tombol Bagikan / Simpan Momen -->
+          <div class="replay-action">
+            <button id="restart-btn" class="text-link-btn">🔄 Buka surat dari awal lagi</button>
+          </div>
+
+        </div> <!-- End forgiven-section -->
+
+      </div> <!-- End letter-paper -->
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>Dibuat dengan sepenuh hati dan rasa sayang yang tulus untuk <strong>Nahdya</strong> ❤️</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
